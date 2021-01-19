@@ -1,34 +1,34 @@
-import fs from "fs";
-import crypto from "crypto";
+const fs = require('fs');
+const crypto = require('crypto');
 
 class UsersRepository {
-  //tworzy plik json
   constructor(filename) {
     if (!filename) {
-      throw new Error("create arepository requires a filename");
+      throw new Error('Creating a repository requires a filename');
     }
+
     this.filename = filename;
     try {
       fs.accessSync(this.filename);
     } catch (err) {
-      fs.writeFileSync(this.filename, "[]");
+      fs.writeFileSync(this.filename, '[]');
     }
   }
-  //czyta plik json
+
   async getAll() {
     return JSON.parse(
       await fs.promises.readFile(this.filename, {
-        encoding: "utf8",
+        encoding: 'utf8'
       })
     );
   }
 
   async create(attrs) {
-    //create random id for new record
     attrs.id = this.randomId();
 
     const records = await this.getAll();
     records.push(attrs);
+
     await this.writeAll(records);
   }
 
@@ -40,42 +40,44 @@ class UsersRepository {
   }
 
   randomId() {
-    return crypto.randomBytes(4).toString("hex");
+    return crypto.randomBytes(4).toString('hex');
   }
 
   async getOne(id) {
     const records = await this.getAll();
-    return records.find((record) => record.id === id);
+    return records.find(record => record.id === id);
   }
 
   async delete(id) {
     const records = await this.getAll();
-    const filteredRecords = records.filter((record) => record.id !== id);
+    const filteredRecords = records.filter(record => record.id !== id);
     await this.writeAll(filteredRecords);
   }
 
   async update(id, attrs) {
     const records = await this.getAll();
-    const record = records.find((record) => record.id === id);
+    const record = records.find(record => record.id === id);
+
     if (!record) {
       throw new Error(`Record with id ${id} not found`);
     }
-    //pobieramy zbaleziony record o podanym w funkcji id i nadpisujemy go attrs
+
     Object.assign(record, attrs);
     await this.writeAll(records);
   }
 
   async getOneBy(filters) {
     const records = await this.getAll();
-    //get all records and loop
+
     for (let record of records) {
       let found = true;
-      //loop in passed object
+
       for (let key in filters) {
         if (record[key] !== filters[key]) {
           found = false;
         }
       }
+
       if (found) {
         return record;
       }
@@ -83,17 +85,4 @@ class UsersRepository {
   }
 }
 
-module.exports  = new UserRepository("user.json"); 
-
-//testing purpose
-// const test = async () => {
-//   const repo = new UsersRepository("users.json");
-// await repo.create({ email: "sssas@", password: "sasasa" });
-// const users = await repo.getAll();
-// const user = await repo.getOne('234543')
-// console.log(users);
-// await repo.delete("47d35028");
-// const user = await repo.getOneBy({ email: "jacekplacek" });
-// console.log(user);
-// };
-// test();
+module.exports = new UsersRepository('users.json');

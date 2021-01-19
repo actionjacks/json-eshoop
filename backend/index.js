@@ -1,5 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
+const usersRepo = require("./repositories/users");
 
 const app = express();
 const port = process.env.PORT || 9000;
@@ -19,10 +20,15 @@ app.get("/", (req, res) => {
   `);
 });
 
-app.post("/", (req, res) => {
-  console.log(req.body);
-  res.send("account created");
-});
+// app.post("/", async (req, res) => {
+//   const { email, password, passwordConfirmation } = req.body;
+
+//   const existingUser = await usersRepo.getOneBy({ email });
+//   if (existingUser) {
+//     return res.send("mail in use");
+//   }
+//   res.send("account created");
+// });
 
 app.listen(port, () => {
   console.log("listening");
