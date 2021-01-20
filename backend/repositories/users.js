@@ -1,5 +1,7 @@
 import fs from "fs";
 import crypto from "crypto";
+import util from "util";
+const scrypt = util.promisify(crypto.scrypt);
 
 export class UsersRepository {
   //tworzy plik json
@@ -24,12 +26,31 @@ export class UsersRepository {
   }
 
   async create(attrs) {
+    //attrs === {email: '', password" ''}
     //create random id for new record
     attrs.id = this.randomId();
 
+    //encrypt user password
+    const salt = crypto.randomBytes(8).toString("hex");
+    const buf = await scrypt(attrs.password, salt, 64);
+
     const records = await this.getAll();
-    records.push(attrs);
+    const record = {
+      ...attrs,
+      password: `${buf.toString("hex")}.${salt}`,
+    };
+    records.push(record);
     await this.writeAll(records);
+
+    return record;
+  }
+
+  async comparePasswords(saved, supplied) {
+    //saved=password saved in db hashed.salt
+    //supplied password given to us by user trying sign in
+    const [hashed, salt] = saved.split(".");
+    const hashedSuppliedBuf = await scrypt(supplied, salt, 64);
+    return hashed === hashedSuppliedBuf.toString("hex");
   }
 
   async writeAll(records) {
