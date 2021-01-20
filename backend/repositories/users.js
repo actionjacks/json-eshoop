@@ -1,7 +1,7 @@
 import fs from "fs";
 import crypto from "crypto";
 
-class UsersRepository {
+export class UsersRepository {
   //tworzy plik json
   constructor(filename) {
     if (!filename) {
@@ -83,7 +83,7 @@ class UsersRepository {
   }
 }
 
-module.exports  = new UserRepository("user.json"); 
+// export const userRepository = new UserRepository("user.json");
 
 //testing purpose
 // const test = async () => {

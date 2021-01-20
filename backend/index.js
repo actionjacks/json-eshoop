@@ -1,6 +1,8 @@
 import express from "express";
 import bodyParser from "body-parser";
-const usersRepo = require("./repositories/users");
+import { UsersRepository } from "./repositories/users";
+// initialize json database
+const usersRepo = new UsersRepository("user.json");
 
 const app = express();
 const port = process.env.PORT || 9000;
@@ -20,15 +22,15 @@ app.get("/", (req, res) => {
   `);
 });
 
-// app.post("/", async (req, res) => {
-//   const { email, password, passwordConfirmation } = req.body;
+app.post("/", async (req, res) => {
+  const { email, password, passwordConfirmation } = req.body;
 
-//   const existingUser = await usersRepo.getOneBy({ email });
-//   if (existingUser) {
-//     return res.send("mail in use");
-//   }
-//   res.send("account created");
-// });
+  const existingUser = await usersRepo.getOneBy({ email });
+  if (existingUser) {
+    return res.send("mail in use");
+  }
+  res.send("account created");
+});
 
 app.listen(port, () => {
   console.log("listening");
