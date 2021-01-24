@@ -3,7 +3,7 @@ import crypto from "crypto";
 import util from "util";
 const scrypt = util.promisify(crypto.scrypt);
 
-export class UsersRepository {
+class UsersRepository {
   //tworzy plik json
   constructor(filename) {
     if (!filename) {
@@ -104,6 +104,7 @@ export class UsersRepository {
   }
 }
 
+export default new UsersRepository("users.json");
 // export const userRepository = new UserRepository("user.json");
 
 //testing purpose
