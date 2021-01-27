@@ -1,18 +1,15 @@
+import layout from "./layout";
+
 export const signinTemplate = () => {
-  return `
-<!DOCTYPE html>
-<html>
-  <head>
-  </head>
-    <body>
-      <div>
-        <form method="POST">
-          <input name="email" placeholder="email"/>
-          <input name="password" placeholder="password"/>
-          <button>Sign In</button>
-        </form>
-      </div>
-    </body>
-</html>
-  `;
+  return layout({
+    content: `
+    <div>
+      <form method="POST">
+        <input name="email" placeholder="email"/>
+        <input name="password" placeholder="password">
+        <button>Sign In</button>
+      </form>
+    </div>
+`,
+  });
 };
