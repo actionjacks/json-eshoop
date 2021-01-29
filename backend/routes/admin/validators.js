@@ -24,6 +24,9 @@ module.exports = {
     .isLength({ min: 4, max: 20 })
     .withMessage("Must be between 4 and 20 characters")
     //can t resolve @@BUG### async
+    //
+    //
+    //
     .custom((passwordConfirmation, { req }) => {
       if (passwordConfirmation !== req.body.password) {
       } else return true;

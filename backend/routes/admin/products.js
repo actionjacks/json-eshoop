@@ -2,19 +2,23 @@ import express from "express";
 import { validationResult } from "express-validator";
 import ProductsRepository from "../../repositories/products";
 import productsNewTemplate from "../../views/admin/products/new";
-import { requireTitle, requirePrice } from "./validators";
+const { requireTitle, requirePrice } = require("./validators");
 
-export const router = express.Router();
+export const productsRouter = express.Router();
 
-router.get("/admin/products", (req, res) => {});
+productsRouter.get("/admin/products", (req, res) => {});
 
-router.get("/admin/products/new", (req, res) => {
+productsRouter.get("/admin/products/new", (req, res) => {
   res.send(productsNewTemplate({}));
 });
 
-router.post("/admin/products/new", [requireTitle, requirePrice], (req, res) => {
-  const errors = validationResult(req);
-  console.log(errors);
+productsRouter.post(
+  "/admin/products/new",
+  [requireTitle, requirePrice],
+  (req, res) => {
+    const errors = validationResult(req);
+    console.log(errors);
 
-  res.send("submitted");
-});
+    res.send("submitted");
+  }
+);

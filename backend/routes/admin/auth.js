@@ -12,13 +12,13 @@ const {
   requireValidPasswordForUser,
 } = require("./validators");
 
-export const router = express.Router();
+export const authRouter = express.Router();
 
-router.get("/signup", (req, res) => {
+authRouter.get("/signup", (req, res) => {
   res.send(signupTemplate({ req }));
 });
 
-router.post(
+authRouter.post(
   "/signup",
   [requireEmail, requirePassword, requirePasswordConfirmation],
   async (req, res) => {
@@ -40,16 +40,16 @@ router.post(
   }
 );
 
-router.get("/signout", (req, res) => {
+authRouter.get("/signout", (req, res) => {
   req.session = null;
   res.send("You are logged out");
 });
 
-router.get("/signin", (req, res) => {
+authRouter.get("/signin", (req, res) => {
   res.send(signinTemplate({ req }));
 });
 
-router.post(
+authRouter.post(
   "/signin",
   [requireEmailExists, requireValidPasswordForUser],
   async (req, res) => {
