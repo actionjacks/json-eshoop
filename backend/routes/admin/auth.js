@@ -1,6 +1,6 @@
 import express from "express";
-import { validationResult } from "express-validator";
 import UsersRepository from "../../repositories/users";
+const { handleErrors } = require("./middlewares");
 //views templates
 import { signupTemplate } from "../../views/admin/auth/signup";
 import { signinTemplate } from "../../views/admin/auth/signin";
@@ -21,22 +21,14 @@ authRouter.get("/signup", (req, res) => {
 authRouter.post(
   "/signup",
   [requireEmail, requirePassword, requirePasswordConfirmation],
+  handleErrors(signupTemplate),
   async (req, res) => {
-    const errors = validationResult(req);
-
-    if (errors.isEmpty()) {
-      const { email, password, passwordConfirmation } = req.body;
-      const user = await UsersRepository.create({ email, password });
-
-      //store the id of that user inside the users cookie
-      req.session.userId = user.id; //req sesion give to req on app.get(/)
-
-      res.send("account created");
-    }
-
-    if (!errors.isEmpty()) {
-      return res.send(signupTemplate({ req, errors }));
-    }
+    console.log(req.body);
+    const { email, password } = req.body;
+    const user = UsersRepository.create({ email, password });
+    //store the id of that user inside the users cookie
+    req.session.userId = user.id; //req sesion give to req on app.get(/)
+    res.send("account created");
   }
 );
 
@@ -52,17 +44,10 @@ authRouter.get("/signin", (req, res) => {
 authRouter.post(
   "/signin",
   [requireEmailExists, requireValidPasswordForUser],
+  handleErrors(signinTemplate),
   async (req, res) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return res.send(signinTemplate({ errors }));
-    }
-
     const { email } = req.body;
-
     const user = await UsersRepository.getOneBy({ email });
-
     req.session.userId = user.id;
 
     res.send("You are signed in!!!");

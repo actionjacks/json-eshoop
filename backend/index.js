@@ -14,10 +14,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //cookies
 app.use(
   cookieSession({
-    keys: ["18tataczytacytatytacyta66"],
+    keys: ["18tata"],
   })
 );
-
 app.use(authRouter);
 app.use(productsRouter);
 

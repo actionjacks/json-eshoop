@@ -1,9 +1,18 @@
-import { check } from "express-validator";
+const { check } = require("express-validator");
 import UsersRepository from "../../repositories/users";
 
 module.exports = {
-  requireTitle: check("title").trim().isLength({ min: 5, max: 40 }),
-  requirePrice: check("price").trim().toFloat().isFloat({ min: 1 }),
+  requireTitle: check("title")
+    .trim()
+    .isLength({ min: 5, max: 40 })
+    .withMessage("Must be between 5 and 40 characters"),
+
+  requirePrice: check("price")
+    .trim()
+    .toFloat()
+    .isFloat({ min: 1 })
+    .withMessage("Must be between 5 and 40 characters"),
+
   requireEmail: check("email")
     .trim()
     .normalizeEmail()
@@ -15,21 +24,22 @@ module.exports = {
         throw new Error("Email in use");
       }
     }),
+
   requirePassword: check("password")
     .trim()
     .isLength({ min: 4, max: 20 })
     .withMessage("Must be between 4 and 20 characters"),
+  //bug !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  //cant resolve password confirmation
   requirePasswordConfirmation: check("passwordConfirmation")
     .trim()
     .isLength({ min: 4, max: 20 })
     .withMessage("Must be between 4 and 20 characters")
-    //can t resolve @@BUG### async
-    //
-    //
-    //
     .custom((passwordConfirmation, { req }) => {
       if (passwordConfirmation !== req.body.password) {
-      } else return true;
+        res.send("Passwords must match");
+      }
+      return true;
     }),
 
   requireEmailExists: check("email")
@@ -43,6 +53,7 @@ module.exports = {
         throw new Error("Email not found!");
       }
     }),
+
   requireValidPasswordForUser: check("password")
     .trim()
     .custom(async (password, { req }) => {
