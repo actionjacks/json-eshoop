@@ -28,7 +28,7 @@ authRouter.post(
     const user = UsersRepository.create({ email, password });
     //store the id of that user inside the users cookie
     req.session.userId = user.id; //req sesion give to req on app.get(/)
-    res.send("account created");
+    res.redirect("/admin/products");
   }
 );
 
@@ -50,6 +50,6 @@ authRouter.post(
     const user = await UsersRepository.getOneBy({ email });
     req.session.userId = user.id;
 
-    res.send("You are signed in!!!");
+    res.redirect("/admin/products");
   }
 );

@@ -11,4 +11,11 @@ module.exports = {
       next();
     };
   },
+  requireAuth(req, res, next) {
+    //check signin?
+    if (!req.session.userId) {
+      return res.redirect("/signin");
+    }
+    next();
+  },
 };
