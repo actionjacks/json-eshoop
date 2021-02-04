@@ -1,7 +1,7 @@
 import { layout } from "../layout";
 import { getError } from "./../../helpers";
 
-export default ({ errors }) => {
+export const productsNewTemplate = ({ errors }) => {
   return layout({
     content: `
       <div class="columns is-centered">

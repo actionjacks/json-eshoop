@@ -4,8 +4,8 @@ const multer = require("multer");
 
 const { handleErrors, requireAuth } = require("./middlewares");
 import ProductsRepository from "../../repositories/products";
-import productsNewTemplate from "../../views/admin/products/new";
 import { productsIndexTemplate } from "../../views/admin/products/index";
+import { productsNewTemplate } from "../../views/admin/products/new";
 import { productsEditTemplate } from "../../views/admin/products/edit";
 const { requireTitle, requirePrice } = require("./validators");
 
@@ -29,11 +29,20 @@ productsRouter.post(
   handleErrors(productsNewTemplate),
 
   async function getData(req, res) {
-    const image = await req.file.buffer.toString("base64");
-    const { title, price } = req.body;
-    await ProductsRepository.create({ title, price, image }); // image
+    let image = null;
+    if (req.file) {
+      image = await req.file.buffer.toString("base64");
 
-    res.redirect("/admin/products");
+      const { title, price } = req.body;
+      await ProductsRepository.create({ title, price, image }); // image
+
+      res.redirect("/admin/products");
+    } else {
+      const { title, price } = req.body;
+      await ProductsRepository.create({ title, price }); // image
+
+      res.redirect("/admin/products");
+    }
   }
 );
 
@@ -53,5 +62,34 @@ productsRouter.get(
 productsRouter.post(
   "/admin/products/:id/edit",
   requireAuth,
-  async (req, res) => {}
+  upload.single("image"),
+  [requireTitle, requirePrice],
+  handleErrors(productsEditTemplate, async (req) => {
+    const product = await ProductsRepository.getOne(req.params.id);
+    return { product };
+  }),
+  async (req, res) => {
+    const changes = req.body;
+
+    if (req.file) {
+      changes.image = req.file.buffer.toString("base64");
+    }
+    try {
+      await ProductsRepository.update(req.params.id, changes);
+    } catch (err) {
+      return res.send("Could not find item");
+    }
+
+    res.redirect("/admin/products");
+  }
+);
+
+productsRouter.post(
+  "/admin/products/:id/delete",
+  requireAuth,
+  async (req, res) => {
+    await ProductsRepository.delete(req.params.id); // params req to informacje z linka strony
+
+    res.redirect("/admin/products");
+  }
 );

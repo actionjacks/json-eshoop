@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import cookieSession from "cookie-session";
 import { authRouter } from "./routes/admin/auth";
 import { productsRouter } from "./routes/admin/products";
+import { mainPageRouter } from "./routes/products";
 
 const app = express();
 const PORT = process.env.PORT || 9001;
@@ -19,6 +20,7 @@ app.use(
 );
 app.use(authRouter);
 app.use(productsRouter);
+app.use(mainPageRouter);
 
 app.listen(PORT, () => {
   console.log("listening at " + PORT);
