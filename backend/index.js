@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import cookieSession from "cookie-session";
 import { authRouter } from "./routes/admin/auth";
 import { productsRouter } from "./routes/admin/products";
+import { cartsRouter } from "./routes/carts";
 import { mainPageRouter } from "./routes/products";
 
 const app = express();
@@ -20,6 +21,7 @@ app.use(
 );
 app.use(authRouter);
 app.use(productsRouter);
+app.use(cartsRouter);
 app.use(mainPageRouter);
 
 app.listen(PORT, () => {
