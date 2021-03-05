@@ -25,5 +25,5 @@ app.use(cartsRouter);
 app.use(mainPageRouter);
 
 app.listen(PORT, () => {
-  console.log("listening at " + PORT);
+  console.log(`listening at http://localhost:${PORT}`);
 });
