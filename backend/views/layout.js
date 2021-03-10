@@ -13,22 +13,29 @@ export const layout = ({ content }) => {
       </head>
 
       <body>
-        <header class="header">
-        
-            <div class="header__adminPanel">
-              <a href="/signin" class="header__signIn">Sign in</a>
-              <a href="/signup" class="header__signiUp">Sign up</a>
-              <h3 class="adminPanel__title">Admin Panel</h3>
-            </div>
-        </header>
-      <div class="cart__container">
-        <p>Your cart</p>
-      <a href="/cart"><i class="fab fa-opencart"></i></a>
-     </div">
-        <div class="wrapper">
-            ${content}
+      <header class="header">
+        <img class="header__logo" src="../images/logo_json.png">
+        <div class="header__adminPanel">
+            <h3 class="adminPanel__title">{ Admin Panel }</h3>
+            <a href="/signin" class="header__signIn">{ Sign in }</a>
+            <a href="/signup" class="header__signiUp">{ Sign up }</a>
         </div>
-     </body>
+          <div class="cart__container">
+            <p>{ Your cart</p>
+            <a href="/cart"><i class="fab fa-opencart"> }</i></a>
+          </div>
+      </header>
+      
+      <div class="wrapper">
+        ${content}
+      </div>
+
+      <footer class="footer">
+        <p class="footer__copyright">
+         {} © 2021 Jsonshoop {}
+        </p>
+      </footer>
+      </body>
     </html>
   `;
 };

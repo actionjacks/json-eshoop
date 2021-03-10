@@ -2,42 +2,35 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="./styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@100&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/40cc81707e.js" crossorigin="anonymous"></script>
+  <link href="./css/main.css" rel="stylesheet">
+  </link>
+  <title>JSON-SHOOP</title>
 </head>
 
 <body>
-  <!--  -->
+  <footer class="footer">
+    <p class="footer__copyright">
+      © 2021 Jsonshoop
+    </p>
+  </footer>
 
 
-  <section class="shoop__products">
-    <div class="products__container">
-      <!--  -->
-      <div class="product__item">
-        <img class="product__image"
-        src="data:image/png;base64, ${product.image}" />
-        <div class="product__title">
-          <h3 class="subtitle">${product.title}</h3>
-          <h5>$${product.price}</h5>
-        </div>
-        <footer class="product__footer">
-          <form action="/cart/products" method="POST">
-            <input hidden value="${product.id}" name="productId" />
-            <button class="product__btn">
-              <i class="fa fa-shopping-cart"></i>Add to cart
-            </button>
-          </form>
-        </footer>
-      </div>
-      <!--  -->
-      
+  <header class="header">
+    <img class="header__logo" src="../images/logo_json.png">
+    <div class="header__adminPanel">
+      <h3 class="adminPanel__title">{ Admin Panel }</h3>
+      <a href="/signin" class="header__signIn">{ Sign in }</a>
+      <a href="/signup" class="header__signiUp">{ Sign up }</a>
     </div>
-  </section>
-
-  <!--  -->
+    <div class="cart__container">
+      <p>{ Your cart</p>
+      <a href="/cart"><i class="fab fa-opencart"> }</i></a>
+    </div>
+  </header>
 </body>
 
 </html>
