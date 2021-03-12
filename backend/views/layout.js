@@ -14,7 +14,9 @@ export const layout = ({ content }) => {
 
       <body>
       <header class="header">
-        <img class="header__logo" src="../images/logo_json.png">
+        <a href="/">
+          <img class="header__logo" src="../images/logo_json.png">
+        </a>
         <div class="header__adminPanel">
             <h3 class="adminPanel__title">{ Admin Panel }</h3>
             <a href="/signin" class="header__signIn">{ Sign in }</a>

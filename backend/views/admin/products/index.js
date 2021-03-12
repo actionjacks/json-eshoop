@@ -9,14 +9,14 @@ export const productsIndexTemplate = ({ products }) => {
       <td>${product.price}</td>
       <td>
         <a href="/admin/products/${product.id}/edit">
-          <button class="button is-link">
+          <button class="productList__tableButton">
             Edit
           </button>
         </a>
       </td>
       <td>
         <form method="POST" action="/admin/products/${product.id}/delete">
-           <button class="button is-danger">Delete</button>
+           <button class="productList__tableButton">Delete</button>
         </form>
       </td>
     </tr>
@@ -26,11 +26,12 @@ export const productsIndexTemplate = ({ products }) => {
 
   return layout({
     content: `
-    <div class="control">
-      <h1 class="subtitle">Products</h1>  
-      <a href="/admin/products/new" class="button is-primary">New Product</a>
+    <div class="admin__productListContainer">
+    <div class="admin__productList">
+      <h1 class="productList__title" class="subtitle">Products</h1>
+      <a class="productList__button" href="/admin/products/new">{ Add: "new Product" }</a>
     </div>
-    <table class="table">
+    <table class="productList__table">
       <thead>
         <tr>
           <th>Title</th>
@@ -43,6 +44,7 @@ export const productsIndexTemplate = ({ products }) => {
         ${renderedProducts}
       </tbody>
     </table>
+  </div>
   `,
   });
 };

@@ -11,52 +11,47 @@ export const cartShowTemplate = ({ errors, items }) => {
   const renderedItems = items
     .map((item) => {
       return `
-      <div class="cart-item message">
-        <h3 class="subtitle">${item.product.title}</h3>
-        <div class="cart-right">
-          <div>
-            $${item.product.price}  X  ${item.quantity} = 
-          </div>
-          <div class="price is-size-4">
-            $${item.product.price * item.quantity}
-          </div>
-          <div class="remove">
-            <form method="POST" action="/cart/products/delete">
-              <input hidden value="${item.id}" name="itemId"/>
-              <button class="button is-danger">                  
-                <span class="icon is-small">
-                  <i class="fas fa-times"></i>
-                </span>
-              </button>
-            </form>
-          </div>
+    <div class="cart__item">
+      <h3 class="cart__subtitle">{  ${item.product.title}</h3>
+        <div class="cart__cartRight">
+          <div class="cart__productPrice">
+          $${item.product.price} X ${item.quantity} =
+          <div class="cart__productPriceQuantity">
+          $${item.product.price * item.quantity}
+        </div>
+        </div>
+    
+      <div class="cart__remove">
+        <form method="POST" action="/cart/products/delete">
+          <input hidden value="${item.id}" name="itemId" />
+          <button class="cart__itemBtn">
+            <span class="icon is-small">
+            <i class="fas fa-times"></i>
+            </span>
+          </button>
+        </form>
         </div>
       </div>
+    </div>
     `;
     })
     .join("");
 
   return layout({
     content: `
-    <div id="cart" class="container">
-    <div class="columns">
-      <div class="column"></div>
-      <div class="column is-four-fifths">
-        <h3 class="subtitle"><b>Shopping Cart</b></h3>
-        <div>
-          ${renderedItems}
-        </div>
-        <div class="total message is-info">
-          <div class="message-header">
-            Total
-          </div>
-          <h1 class="title">PLN ${totalPrice}</h1>
-          <button class="button is-primary">Buy</button>
-        </div>
-      </div>
-      <div class="column"></div>
+    <div id="cart" class="cart__container">
+      <h3 class="subtitle"><b>{ "Shopping Cart" }</b></h3>
+    <div class="cart__items">
+     { ${renderedItems} }
     </div>
-  </div>
+    </div>
+    <div class="cart__priceTotal">
+      <div class="cart__header">
+        Total
+      </div>
+      <h2 class="cart__title">PLN { ${totalPrice} }</h2>
+      <button class="cart__button">Buy</button>
+    </div>
 `,
   });
 };
